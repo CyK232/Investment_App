@@ -118,23 +118,16 @@ const mockPortfolioData = {
 const Portfolio = () => {
   const [timeRange, setTimeRange] = useState('1W');
   const [showAllHoldings, setShowAllHoldings] = useState(false);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
 
-  const handleConnectWallet = () => {
-    setIsWalletConnected(!isWalletConnected);
-  };
-  
   // Handle buy and sell actions
   const handleBuy = (e, symbol) => {
     e.stopPropagation();
     alert(`Buy more ${symbol}`);
-    // Here you would typically open a buy modal or navigate to a buy page
   };
 
   const handleSell = (e, symbol) => {
     e.stopPropagation();
     alert(`Sell ${symbol}`);
-    // Here you would typically open a sell modal or navigate to a sell page
   };
 
   // Chart data for balance history
@@ -226,16 +219,7 @@ const Portfolio = () => {
     <PortfolioContainer>
       <Header>
         <Title>Portfolio</Title>
-        {!isWalletConnected ? (
-          <ConnectWalletSection>
-            <ConnectWalletMessage>Connect your wallet to view your portfolio</ConnectWalletMessage>
-            <ConnectWalletButton onClick={handleConnectWallet}>
-              <FaWallet /> Connect Wallet
-            </ConnectWalletButton>
-          </ConnectWalletSection>
-        ) : (
-          <>
-            <BalanceSection>
+        <BalanceSection>
           <BalanceLabel>Total Balance</BalanceLabel>
           <BalanceAmount>${mockPortfolioData.totalBalance.toFixed(2)}</BalanceAmount>
           <BalanceChange positive={mockPortfolioData.dailyChange >= 0}>
@@ -243,13 +227,9 @@ const Portfolio = () => {
             ${mockPortfolioData.dailyChange.toFixed(2)} ({mockPortfolioData.dailyChangePercent.toFixed(2)}%)
           </BalanceChange>
         </BalanceSection>
-          </>
-        )}
       </Header>
 
-      {isWalletConnected ? (
-        <>
-          <Card>
+      <Card>
         <CardHeader>
           <CardTitle>Balance History</CardTitle>
           <TimeRangeSelector>
@@ -329,8 +309,6 @@ const Portfolio = () => {
           </ShowMoreButton>
         )}
       </Card>
-        </>
-      ) : null}
     </PortfolioContainer>
   );
 };
